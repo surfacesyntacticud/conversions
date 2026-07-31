@@ -34,28 +34,3 @@ Try the Beja GRS online on Grew-web:
  * [BEJ_MV_NARR_03_camel](http://transform.grew.fr/?grs=https://raw.githubusercontent.com/surfacesyntacticud/tools/master/morph2word/morph2word.grs&corpus=https://raw.githubusercontent.com/surfacesyntacticud/SUD_Beja-NSC/master/BEJ_MV_NARR_03_camel.conllu)
  * [BEJ_MV_NARR_01_shelter](http://transform.grew.fr/?grs=https://raw.githubusercontent.com/surfacesyntacticud/tools/master/morph2word/morph2word.grs&corpus=https://raw.githubusercontent.com/surfacesyntacticud/SUD_Beja-NSC/master/BEJ_MV_NARR_01_shelter.conllu)
 
-
-## Automatic tests
-You can run automatic tests defined in `./test2/tests_description.json` to see if the rules are being applied correctly.
-You need to add a folder that has the same name of the grs file inside `test2/data/` with both a `source.conllu` and an `expected conllu`.
-
-### test description
-Add an entry for your grs rule inside `./test2/tests_description.json` with the following entries :
-```json
-[
-    {
-        "TEST_FOLDER_NAME": "zh_mSUD_to_SUD",
-        "GRS_FILE": "zh_mSUD_to_SUD.grs",
-        "STRAT_NAME": "zh_mSUD_to_SUD_main",
-        "CONFIG_TYPE": "sud"
-    }
-]
-```
-
-### Tests command
-Using docker, run the following commands
-
-```bash
-docker build -t grs_test . 
-docker run grs_test
-```
