@@ -43,6 +43,20 @@ package init {
 
 package conjdicto {
   % TODO: conj:dicto should be reverserd when change into reparandum: the rule below builds non projective punct, it should be refined!
+  rule repair {
+    pattern { 
+      e: N -[repair]-> M; 
+    }
+    without { M -[repair]-> * }
+    without { N -[repair]-> M2; M << M2 }
+    commands { 
+      del_edge e; 
+      shift_in N ==> M;   % reparandum should be reversed (see: https://surfacesyntacticud.github.io/guidelines/u/oral_language/conj_dicto/)
+      shift_out N =[punct]=> M;
+      add_edge M -[reparandum]-> N;
+    }
+  }
+
   rule r {
     pattern { 
       e: N -[conj:dicto]-> M; 
@@ -58,7 +72,7 @@ package conjdicto {
   }
   
   rule no_dep_on_cc {
-    pattern { H -[cc]-> C; e:  C -[^reparandum|conj:dicto|conj:coord|conj]-> N }
+    pattern { H -[cc]-> C; e:  C -[^reparandum|conj:dicto|repair|conj:coord|conj]-> N }
     without { e.label = unk; N.InIdiom=Yes } % Except UD "fixed
     without { C[Idiom=Yes] }  % frozen cc. Ex in Naija "and in fact sey"
     commands {
