@@ -312,10 +312,88 @@ package exponence {
 
 }
 
+package fr_restore_mwt {
+  rule adp_det (lex from "lexicons/fr_mwt.lp") {
+    pattern {
+      X [ form = lex.form, upos = ADP ];
+      X -[comp]-> Z
+    }
+    commands {
+
+      add_node Y :> X;
+      X.textform = X.form; Y.textform = "_"; % MWT handling
+
+      X.form = lex.adp_form;
+      X.wordform = lex.adp_form;
+      X.lemma=lex.adp_lemma;
+
+      Y.upos = DET;
+      Y.form = lex.det_form; Y.lemma=lex.det_lemma;
+      Y.Gender = Masc;
+      Y.PronType = Art;
+      Y.Definite = Def;
+      Y.Number = lex.det_number;
+
+      add_edge Z -[det]-> Y;
+
+      append_feats X =[re"Align*"]=> Y;
+
+    }
+  }
+}
+
+package fr_post_restore_mwt {
+  rule adp_det (lex from "lexicons/fr_mwt.lp") {
+    pattern {
+      Y [ form = lex.form, upos = ADP ];
+    }
+    commands {
+
+      add_node X :< Y;
+      X.textform = Y.form; Y.textform = "_"; % MWT handling
+
+      X.upos = ADP;
+      X.form = lex.adp_form;
+      X.wordform = lex.adp_form;
+      X.lemma=lex.adp_lemma;
+
+      Y.upos = DET;
+      Y.form = lex.det_form; Y.lemma=lex.det_lemma;
+      Y.Gender = Masc;
+      Y.PronType = Art;
+      Y.Definite = Def;
+      Y.Number = lex.det_number;
+      Y.Scrap = Yes;
+
+      add_edge Y -[case]-> X;
+
+      append_feats Y =[re"Align*"]=> X;
+
+      append_feats Y =[re"__MWT__SpaceAfter"]=> X;
+      del_feat Y.__MWT__SpaceAfter;
+    }
+  }
+}
+
+rule space_after_on_mwt (lex from "lexicons/fr_mwt.lp") {
+  pattern {
+    Y [ form = lex.form, upos = ADP, !__MWT__SpaceAfter ];
+    P [ lemma="," | "." | "…"];
+    Y < P;
+  }
+  commands {
+    del_feat Y.SpaceAfter;
+    Y.__MWT__SpaceAfter = No;
+  }
+}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main strategy for converting any SUD French annotation into a UD annotation.
 strat fr_main{
   Seq (
+    Onf (space_after_on_mwt),
+    Onf (fr_restore_mwt), % initial modif of MWT tokens "au", "du" that are regular (i.e. have a comp out-edge )
     FR_main_UDplus,
     flatten_idioms,
     Onf (remove_UDplus_subtypes),
@@ -327,5 +405,6 @@ strat fr_main{
     Onf (missing_extension),
     Onf (rm_unknown),
     Onf (exponence),
+    Onf (fr_post_restore_mwt), % final modif of MWT tokens "au", "du" that are not regular
   )
 }
