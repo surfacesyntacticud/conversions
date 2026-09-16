@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-include "SUD_to_UD.grs"
+include "../SUD_to_UD.grs"
 
 % The conversion of "suite à", "face à" are invalid ('advmod' should be 'ADV' but it is 'NOUN')
 % To avoid this, we transform these phrase as idiom in order to make them fixed after conversion.
@@ -315,7 +315,7 @@ package exponence {
 package fr_restore_mwt {
   rule adp_det (lex from "lexicons/fr_mwt.lp") {
     pattern {
-      X [ form = lex.form, upos = ADP ];
+      X [ form = lex.form, upos = ADP, !Idiom, !InIdiom ];
       X -[comp]-> Z
     }
     commands {
@@ -323,13 +323,13 @@ package fr_restore_mwt {
       add_node Y :> X;
       X.textform = X.form; Y.textform = "_"; % MWT handling
 
-      X.form = lex.adp_form;
-      X.wordform = lex.adp_form;
+      X.form = lex.adp_form; X.wordform = lex.adp_form;
       X.lemma=lex.adp_lemma;
 
       Y.upos = DET;
-      Y.form = lex.det_form; Y.lemma=lex.det_lemma;
-      Y.Gender = Masc;
+      Y.form = lex.det_form; Y.wordform = lex.det_form; 
+      Y.lemma=lex.det_lemma;
+      % Y.Gender = Masc;
       Y.PronType = Art;
       Y.Definite = Def;
       Y.Number = lex.det_number;
@@ -337,15 +337,13 @@ package fr_restore_mwt {
       add_edge Z -[det]-> Y;
 
       append_feats X =[re"Align*"]=> Y;
-
+      append_feats Z =[re"InIdiom\|InTitle"]=> Y;
     }
   }
-}
 
-package fr_post_restore_mwt {
-  rule adp_det (lex from "lexicons/fr_mwt.lp") {
+  rule lequel {
     pattern {
-      Y [ form = lex.form, upos = ADP ];
+      Y [ form = lex.form, upos = PRON ];
     }
     commands {
 
@@ -353,13 +351,49 @@ package fr_post_restore_mwt {
       X.textform = Y.form; Y.textform = "_"; % MWT handling
 
       X.upos = ADP;
-      X.form = lex.adp_form;
-      X.wordform = lex.adp_form;
+      X.form = lex.adp_form_lemma; X.wordform = lex.adp_form_lemma;
+      X.lemma=lex.adp_form_lemma;
+
+      Y.upos = PRON;
+      Y.form = lex.pron_form; Y.wordform = lex.pron_form;
+      Y.lemma="lequel";
+
+      shift_in Y ==> X;
+      add_edge X -[comp]-> Y;
+
+      append_feats Y =[re"Align*"]=> X;
+    }
+  }
+#BEGIN lex
+form	adp_form_lemma	pron_form
+%--------------------
+auquel	à	lequel
+duquel	de	lequel
+auxquels	à	lesquels
+auxquelles	à	lesquelles
+desquelles	de	lesquelles
+desquels	de	lesquels
+#END
+}
+
+package fr_post_restore_mwt {
+  rule adp_det (lex from "lexicons/fr_mwt.lp") {
+    pattern {
+      Y [ form = lex.form, upos = ADP, !Idiom, !InIdiom ];
+    }
+    commands {
+
+      add_node X :< Y;
+      X.textform = Y.form; Y.textform = "_"; % MWT handling
+
+      X.upos = ADP;
+      X.form = lex.adp_form; X.wordform = lex.adp_form;
       X.lemma=lex.adp_lemma;
 
       Y.upos = DET;
-      Y.form = lex.det_form; Y.lemma=lex.det_lemma;
-      Y.Gender = Masc;
+      Y.form = lex.det_form; Y.wordform = lex.det_form; 
+      Y.lemma=lex.det_lemma;
+      % Y.Gender = Masc;
       Y.PronType = Art;
       Y.Definite = Def;
       Y.Number = lex.det_number;
@@ -375,15 +409,21 @@ package fr_post_restore_mwt {
   }
 }
 
-rule space_after_on_mwt (lex from "lexicons/fr_mwt.lp") {
+rule le_det_is_masc {
+  pattern {  X[form = "le", upos=DET, !Gender] }
+  commands { X.Gender=Masc}
+}
+
+rule space_after_on_mwt {
   pattern {
-    Y [ form = lex.form, upos = ADP, !__MWT__SpaceAfter ];
-    P [ lemma="," | "." | "…"];
-    Y < P;
+    X1[!__MWT__SpaceAfter];
+    X2[textform = "_"]; X1 < X2;
+    X3 [ lemma="," | "." | "…"]; X2 < X3
   }
   commands {
-    del_feat Y.SpaceAfter;
-    Y.__MWT__SpaceAfter = No;
+    X1.__MWT__SpaceAfter = No;
+    del_feat X1.SpaceAfter;
+    del_feat X2.SpaceAfter;
   }
 }
 
@@ -392,7 +432,6 @@ rule space_after_on_mwt (lex from "lexicons/fr_mwt.lp") {
 % Main strategy for converting any SUD French annotation into a UD annotation.
 strat fr_main{
   Seq (
-    Onf (space_after_on_mwt),
     Onf (fr_restore_mwt), % initial modif of MWT tokens "au", "du" that are regular (i.e. have a comp out-edge )
     FR_main_UDplus,
     flatten_idioms,
@@ -406,5 +445,7 @@ strat fr_main{
     Onf (rm_unknown),
     Onf (exponence),
     Onf (fr_post_restore_mwt), % final modif of MWT tokens "au", "du" that are not regular
+    Onf (le_det_is_masc),
+    Onf (space_after_on_mwt),
   )
 }
