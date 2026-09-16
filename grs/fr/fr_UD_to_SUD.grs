@@ -495,7 +495,7 @@ package FR_noun_adv{
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-strat fr_main {
+strat fr_UD_to_SUD_main {
   Seq(
     Onf(idioms),
     specific_expr_init,
@@ -504,7 +504,7 @@ strat fr_main {
     Onf (rel_extensions),
     Onf (relations),
     Onf (FR_set_level),
-    reverse_relations.main,
+    reverse_relations.reverse_relations,
     Onf(FR_shift_out_edges),
     Onf(FR_shift_out_back_edges),
     Onf (minimize_right_conj-dep),

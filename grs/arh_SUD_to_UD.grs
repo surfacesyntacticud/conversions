@@ -4,7 +4,7 @@ include "SUD_to_UD.grs"
 strat arh_SUD_to_UD_main {
   Seq (
     Onf (arh_pre),
-    u_main,
+    SUD_to_UD_main,
     Onf (arh_post),
   )
 }

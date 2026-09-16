@@ -927,37 +927,7 @@ package ud_validation {
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Main strategy for converting any SUD annotation into a UDplus annotation.
-% The UDplus schema is in accordance the UD schema with additional information. It distinguishes between two types of idioms: idioms without syntactic structure are annotated with fixed relations according to the UD guidelines; idioms with a syntactic structure are annotated like any ordinary expression but their head is marked with the feature Idiom=Yes; it also contains a feature ExtPos, which denotes the element’s function within the wider sentence; the other components of the idiom contain the feature InIdiom=Yes.
-% For the sake of uniformity, the use of features Idiom, ExtPos an InIdiom is extended to idioms without syntactic structure.
-strat main_UDplus {
-  Seq (
-    Onf (init),
-    Onf (conjdicto),
-    Onf (shared_1), % Package SHARED must precede SPECIFIC_EXPR_INIT so that feature Shared=Yes is not embedded in Idiom.
-    Onf (shared_2), 
-    Onf (remove_shared),
-    specific_expr_init, % Initialization of a specific treatment for idioms, titles and translated words.
-    Onf (nom_init),
-    Onf (unchained_relations), % For CONJ relations, chains must be transformed into bouquets before head changes because of conditions on the presence of prepositions, conjunctions and auxiliaries. It is easier to take these conditions into account before head changes (UD_French-GSD : fr-ud-dev_00751)
-    Onf (reverse_case_mark),  % Package REVERSE_CASE_MARK precedes packages SUB_RELATIONS and RELATIONS because UD labels of complement relations depend on the category of the complements introduced with a preposition or a conjunction
-    Onf (shift_out_edges),
-    Onf (case_mark_relations), %Package CASE_MARK_RELATIONS must precede package SUB_RELATIONS because renaming of some SUD relations requires the distinction between case and mark relations. The package must also precede package REVERSE_CLOSE because changes concern only reversed relations (Counter-example : SUD_French-GSD fr-ud-train_03238)
-    Onf (reverse_close),
-    Onf (sub_relations), % Package SUB_RELATIONS must precede package REL_EXTENSIONS because this package swat extensions on level 2.
-    Onf (rel_extensions),
-    Onf (relations),
-    Onf (relations_backoff),
-    Onf (reverse_aux),    % Package REVERSE_AUX follows packages SUB_RELATIONS and RELATIONS because of the dependencies H -> AUX in UD: if H is the target of a dependency, the label of the dependency may depend on the mood of AUX.
-    Onf (shift_out_edges),
-    Onf (reverse_close),
-    Onf(outer_copula),
-    Onf (final),
-    specific_expr_close, % Closing a specific treatment for idioms, titles and converted words.
-    Onf (extpos),
-  )
-}
+
 rule remove_feat_subject{
   pattern{V[Subject]}
   commands{del_feat V.Subject}
@@ -1004,9 +974,35 @@ package fix_punct {
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Universal main strategy for converting any SUD annotation into a UD annotation.
-strat u_main{
+strat SUD_to_UD_main {
   Seq (
-    main_UDplus,
+    Onf (init),
+    Onf (conjdicto),
+    Onf (shared_1), % Package SHARED must precede SPECIFIC_EXPR_INIT so that feature Shared=Yes is not embedded in Idiom.
+    Onf (shared_2), 
+    Onf (remove_shared),
+    specific_expr_init, % Initialization of a specific treatment for idioms, titles and translated words.
+    Onf (nom_init),
+    Onf (unchained_relations), % For CONJ relations, chains must be transformed into bouquets before head changes because of conditions on the presence of prepositions, conjunctions and auxiliaries. It is easier to take these conditions into account before head changes (UD_French-GSD : fr-ud-dev_00751)
+    Onf (reverse_case_mark),  % Package REVERSE_CASE_MARK precedes packages SUB_RELATIONS and RELATIONS because UD labels of complement relations depend on the category of the complements introduced with a preposition or a conjunction
+    Onf (shift_out_edges),
+    Onf (case_mark_relations), %Package CASE_MARK_RELATIONS must precede package SUB_RELATIONS because renaming of some SUD relations requires the distinction between case and mark relations. The package must also precede package REVERSE_CLOSE because changes concern only reversed relations (Counter-example : SUD_French-GSD fr-ud-train_03238)
+    Onf (reverse_close),
+    Onf (sub_relations), % Package SUB_RELATIONS must precede package REL_EXTENSIONS because this package swat extensions on level 2.
+    Onf (rel_extensions),
+    Onf (relations),
+    Onf (relations_backoff),
+    Onf (reverse_aux),    % Package REVERSE_AUX follows packages SUB_RELATIONS and RELATIONS because of the dependencies H -> AUX in UD: if H is the target of a dependency, the label of the dependency may depend on the mood of AUX.
+    Onf (shift_out_edges),
+    Onf (reverse_close),
+    Onf(outer_copula),
+    Onf (final),
+    specific_expr_close, % Closing a specific treatment for idioms, titles and converted words.
+    Onf (extpos),
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Main strategy for converting any SUD annotation into a UDplus annotation.
+    % The UDplus schema is in accordance the UD schema with additional information. It distinguishes between two types of idioms: idioms without syntactic structure are annotated with fixed relations according to the UD guidelines; idioms with a syntactic structure are annotated like any ordinary expression but their head is marked with the feature Idiom=Yes; it also contains a feature ExtPos, which denotes the element’s function within the wider sentence; the other components of the idiom contain the feature InIdiom=Yes.
+    % For the sake of uniformity, the use of features Idiom, ExtPos an InIdiom is extended to idioms without syntactic structure.
     flatten_idioms,
     Onf(remove_feat_subject),
     Onf(remove_UDplus_subtypes),
@@ -1014,6 +1010,3 @@ strat u_main{
     Onf (ud_validation), % final modification to adapt to validation errors and warnings
   )
 }
-
-% [u_main] is chosen by default
-strat main { u_main }

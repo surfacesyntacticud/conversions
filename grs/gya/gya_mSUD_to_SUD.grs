@@ -1,4 +1,4 @@
-strat main {
+strat gya_mSUD_to_SUD_main {
   Seq (
     Onf (init),
     Onf (aff),

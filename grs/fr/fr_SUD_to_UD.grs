@@ -430,7 +430,7 @@ rule space_after_on_mwt {
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main strategy for converting any SUD French annotation into a UD annotation.
-strat fr_main{
+strat fr_SUD_to_UD_main {
   Seq (
     Onf (fr_restore_mwt), % initial modif of MWT tokens "au", "du" that are regular (i.e. have a comp out-edge )
     FR_main_UDplus,

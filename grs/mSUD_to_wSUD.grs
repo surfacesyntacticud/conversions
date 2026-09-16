@@ -1,4 +1,5 @@
-strat main {
+
+strat mSUD_to_wSUD_main {
   Seq (
     Onf (init),
     Onf (p),

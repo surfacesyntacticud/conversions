@@ -5,7 +5,7 @@ strat zh_SUD_to_UD_main {
   Seq (
     Onf (zh_pre),
     Onf (comp),
-    u_main,
+    SUD_to_UD_main,
     Onf (zh_post),
   )
 }

@@ -1,7 +1,7 @@
 include "UD_to_SUD.grs"
 
-% Defined a strategy specific to Wolof: the universal strategy with one specific package wo_levels, called before reverse_relations.main.
-strat wo_main {
+% Defined a strategy specific to Wolof: the universal strategy with one specific package wo_levels, called before reverse_relations.reverse_relations.
+strat wo_UD_to_SUD_main {
   Seq (
     Onf (eud_to_ud),
     Onf (idioms),
@@ -15,7 +15,7 @@ strat wo_main {
     Onf (wo_levels_1),
     Onf (wo_levels_2),
 
-    reverse_relations.main,
+    reverse_relations.reverse_relations,
     Onf (shared_left_conj-dep),
     Onf (unshared_left_conj-dep),
     Onf (minimize_right_conj-dep),

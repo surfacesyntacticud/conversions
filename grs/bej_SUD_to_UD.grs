@@ -3,7 +3,7 @@ include "SUD_to_UD.grs"
 strat bej_SUD_to_UD_main {
   Seq (
     Onf (bej_pre),
-    u_main,
+    SUD_to_UD_main,
     Onf(bej_post),
     Onf(bej_valid),
   )

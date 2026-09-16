@@ -3,7 +3,7 @@ include "SUD_to_UD.grs"
 
 strat ht_SUD_to_UD_main {
   Seq (
-    u_main,
+    SUD_to_UD_main,
     Onf (ht_post),
   )
 }

@@ -1,7 +1,7 @@
 include "UD_to_SUD.grs"
 
-% Defined a strategy specific to Breton: the universal strategy with one specific package br_levels, called before reverse_relations.main.
-strat br_main {
+% Defined a strategy specific to Breton: the universal strategy with one specific package br_levels, called before reverse_relations.reverse_relations.
+strat br_UD_to_SUD_main {
   Seq (
     Onf (init),
     Onf (eud_to_ud),
@@ -13,7 +13,7 @@ strat br_main {
 
     Onf (br_levels),
 
-    reverse_relations.main,
+    reverse_relations.reverse_relations,
     Onf (shared_left_conj-dep),
     Onf (unshared_left_conj-dep),
     Onf (minimize_right_conj-dep),

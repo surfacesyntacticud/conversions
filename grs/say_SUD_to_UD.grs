@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 include "SUD_to_UD.grs"
 
-strat say_main {
+strat say_SUD_to_UD_main {
   Seq (
     Onf (say_pre),
-    u_main,
+    SUD_to_UD_main,
     Onf(say_post),
   )
 }
