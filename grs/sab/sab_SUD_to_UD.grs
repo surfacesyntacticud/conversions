@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-include "SUD_to_UD.grs"
+include "../SUD_to_UD.grs"
 
 strat sab_SUD_to_UD_main {
   Seq (

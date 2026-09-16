@@ -1,4 +1,4 @@
-include "UD_to_SUD.grs"
+include "../UD_to_SUD.grs"
 
 % Defined a strategy specific to Breton: the universal strategy with one specific package br_levels, called before reverse_relations.reverse_relations.
 strat br_UD_to_SUD_main {

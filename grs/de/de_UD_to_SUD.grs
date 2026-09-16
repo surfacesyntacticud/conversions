@@ -1,4 +1,4 @@
-include "UD_to_SUD.grs"
+include "../UD_to_SUD.grs"
 
 % Defined a strategy specific to German: the universal strategy with one specific package de_levels, called before reverse_relations.reverse_relations.
 strat de_UD_to_SUD_main {
