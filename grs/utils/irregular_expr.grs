@@ -37,6 +37,8 @@ package add_nodes {
       add_node I :< H;
       add_edge I -[IDIOM]-> H; add_edge I -[HEAD]-> H;
       shift_in H =[^IDIOM|TITLE]=> I;
+      append_feats H =[re"Coconstruct\|Backchannel"]=> I;
+      del_feat H.Coconstruct; del_feat H.Backchannel;
       shift_out H =[IDIOM]=> I;
       I.upos = H.ExtPos; del_feat H.ExtPos;
       I.Idiom = Yes; del_feat H.Idiom;
@@ -50,6 +52,8 @@ package add_nodes {
       add_node I :< H;
       add_edge I -[IDIOM]-> H; add_edge I -[HEAD]-> H;
       shift_in H =[^IDIOM|TITLE]=> I;
+      append_feats H =[re"Coconstruct\|Backchannel"]=> I;
+      del_feat H.Coconstruct; del_feat H.Backchannel;
       shift_out H =[IDIOM]=> I;
       I.upos = H.ExtPos; del_feat H.ExtPos;
       I.Idiom=Yes; del_feat H.Idiom;
@@ -65,6 +69,8 @@ package add_nodes {
       add_node I :< H;
       add_edge I -[IDIOM]-> H; add_edge I -[HEAD]-> H;
       shift_in H =[^IDIOM|TITLE]=> I;
+      append_feats H =[re"Coconstruct\|Backchannel"]=> I;
+      del_feat H.Coconstruct; del_feat H.Backchannel;
       shift_out H =[IDIOM]=> I;
       del_edge e; add_edge I -[IDIOM]-> AUX;
       I.upos = H.ExtPos; del_feat H.ExtPos;
@@ -79,6 +85,8 @@ package add_nodes {
     commands{
       add_node T :< H; add_edge T -[TITLE]-> H; add_edge T -[HEAD]-> H;
       shift_in H =[^IDIOM|TITLE]=> T;
+      append_feats H =[re"Coconstruct\|Backchannel"]=> T;
+      del_feat H.Coconstruct; del_feat H.Backchannel;
       shift_out H =[TITLE]=> T;
       T.upos = H.ExtPos; del_feat H.ExtPos;
       T.Title = Yes; del_feat H.Title;
@@ -91,6 +99,8 @@ package add_nodes {
     commands{
       add_node C :< H; add_edge C -[CONV]-> H; add_edge C -[HEAD]-> H;
       shift H =[^IDIOM|TITLE]=> C;
+      append_feats H =[re"Coconstruct\|Backchannel"]=> C;
+      del_feat H.Coconstruct; del_feat H.Backchannel;
       C.upos = H.ExtPos; del_feat H.ExtPos;
       C.lemma = H.lemma
     }
@@ -199,12 +209,23 @@ package del_edges {
 package del_nodes {
   rule del_specif_expr{
     pattern{ N[!Shared];e: N -[HEAD]-> H }
-    commands{del_edge e; shift N ==> H;del_node N}
+    commands{
+      del_edge e;
+      shift N ==> H;
+      append_feats N =[re"Coconstruct\|Backchannel"]=> H;
+      del_node N
+    }
   }
 
   rule del_shared_specif_expr_{
     pattern{ N[Shared]; e: N -[HEAD]-> H }
-    commands{del_edge e; shift N ==> H ; H.Shared=N.Shared;del_node N}
+    commands{
+      del_edge e;
+      shift N ==> H ;
+      append_feats N =[re"Coconstruct\|Backchannel"]=> H;
+      H.Shared=N.Shared;
+      del_node N
+    }
   }
 }
 
