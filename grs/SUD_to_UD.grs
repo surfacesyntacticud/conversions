@@ -233,6 +233,11 @@ package unchained_relations {
     pattern { H -[conj@emb]-> D1;e: D1 -[conj@emb]-> D2 }
     commands { del_edge e; add_edge H -[conj@emb]-> D2 }
   }
+
+  rule reparandum {
+    pattern { H -[reparandum]-> D1;e: D1 -[reparandum]-> D2 }
+    commands { del_edge e; add_edge H -[reparandum]-> D2 }
+  }
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
