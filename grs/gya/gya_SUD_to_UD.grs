@@ -10,8 +10,18 @@ strat gya_SUD_to_UD_main {
 }
 
 package gya_pre {
+  rule missing_rel_TMP219 {
+    pattern { e: X -[!1]-> Y }
+    commands { e.label = "unk" }
+  }
+
+  rule missing_upos_TMP219 {
+    pattern { X[form <> "__0__", !upos] }
+    commands { X.upos = "NONE" }
+  }
+
   rule comp {
-    pattern { e: X -[comp]-> Y }
+    pattern { e: X -[comp]-> Y; X[upos<>ADP|SCONJ|PART] }
     commands { e.label = "comp:obj" }
   }
 }
