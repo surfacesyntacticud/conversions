@@ -1,9 +1,9 @@
 
 # The UD/SUD converter tool
 
-This repository contains a set of Graph Rewriting rules which can be used with the [Grew software](http://grew.fr) for conversion from [UD](http://universaldependencies.org/) to [SUD](https://surfacesyntacticud.github.io/) and the other way.
+This repository contains a set of Graph Rewriting rules which can be used with the [Grew software](http://grew.fr) for conversion from [UD](http://universaldependencies.org/) to [SUD](https://surfacesyntacticud.org/) and the other way.
 
-Examples of converted data are available [here](https://surfacesyntacticud.github.io/data).
+Examples of converted data are available [here](https://surfacesyntacticud.org/data).
 
 ## HOWTO use the conversion system
 
@@ -22,15 +22,8 @@ grew transform -grs grs/SUD_to_UD.grs -config sud -i input_SUD_file.conllu -o ou
 ```
 
 ### Language specific conversions
-For some langauges, there are dedicated conversion systems.
-Corresponding files are prefixed by the language code, for instance, `zh_SUD_to_UD.grs` is a conversion from SUD to UD adapted to Chinese annotations; the strategy to used is names like the file with suffix `_main`(`zh_SUD_to_UD_main` in the previous example).
+For some languages, there are dedicated conversion systems.
+Corresponding files are prefixed by the language code, for instance, `zh_SUD_to_UD.grs` is a conversion from SUD to UD adapted to Chinese annotations;
+the strategy to used is names like the file with suffix `_main`(`zh_SUD_to_UD_main` in the previous example).
 Consult the `grs` folder to see which languages have specific conversions systems.
-
-### Conversion from mSUD to SUD
-
-For Chinese and Beja, additional conversions for mSUD format are available.
-
-Try the Beja GRS online on Grew-web:
- * [BEJ_MV_NARR_03_camel](http://transform.grew.fr/?grs=https://raw.githubusercontent.com/surfacesyntacticud/tools/master/morph2word/morph2word.grs&corpus=https://raw.githubusercontent.com/surfacesyntacticud/SUD_Beja-NSC/master/BEJ_MV_NARR_03_camel.conllu)
- * [BEJ_MV_NARR_01_shelter](http://transform.grew.fr/?grs=https://raw.githubusercontent.com/surfacesyntacticud/tools/master/morph2word/morph2word.grs&corpus=https://raw.githubusercontent.com/surfacesyntacticud/SUD_Beja-NSC/master/BEJ_MV_NARR_01_shelter.conllu)
 
