@@ -32,7 +32,9 @@ package first {
       N.fix=First;
       N.ExtPos = H.ExtPos; del_feat H.ExtPos;
       N.Idiom = Yes; del_feat H.Idiom;
-      shift H ==> N
+      shift H ==> N;
+      append_feats H =[re"Coconstruct\|Backchannel\|Reported"]=> N;
+      del_feat H.Coconstruct; del_feat H.Backchannel; del_feat H.Reported; 
     }
   }
 }

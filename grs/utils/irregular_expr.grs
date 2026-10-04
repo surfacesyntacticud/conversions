@@ -208,22 +208,11 @@ package del_edges {
 % remove nodes
 package del_nodes {
   rule del_specif_expr{
-    pattern{ N[!Shared];e: N -[HEAD]-> H }
+    pattern{ e: N -[HEAD]-> H }
     commands{
       del_edge e;
       shift N ==> H;
-      append_feats N =[re"Coconstruct\|Backchannel"]=> H;
-      del_node N
-    }
-  }
-
-  rule del_shared_specif_expr_{
-    pattern{ N[Shared]; e: N -[HEAD]-> H }
-    commands{
-      del_edge e;
-      shift N ==> H ;
-      append_feats N =[re"Coconstruct\|Backchannel"]=> H;
-      H.Shared=N.Shared;
+      append_feats N =[re"Coconstruct\|Backchannel\|Shared"]=> H;
       del_node N
     }
   }

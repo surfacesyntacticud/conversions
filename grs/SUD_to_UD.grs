@@ -254,8 +254,8 @@ package reverse_case_mark {
       add_edge f:D -> H; f.label = e.label;
       del_edge e;
       shift_in H =[^IDIOM|TITLE|CONV]=> D;
-      append_feats H =[re"Coconstruct\|Backchannel"]=> D;
-      del_feat H.Coconstruct; del_feat H.Backchannel; 
+      append_feats H =[re"Coconstruct\|Backchannel\|Reported"]=> D;
+      del_feat H.Coconstruct; del_feat H.Backchannel; del_feat H.Reported;
       shift_out H =[1=case|mark]=> D;
     }
   }
@@ -872,8 +872,8 @@ package reverse_aux {
       add_edge f:D -> H; f.label = e.label;
       del_edge e;
       shift_in H =[^IDIOM|TITLE]=> D;
-      append_feats H =[re"Coconstruct\|Backchannel"]=> D;
-      del_feat H.Coconstruct; del_feat H.Backchannel; 
+      append_feats H =[re"Coconstruct\|Backchannel\|Reported"]=> D;
+      del_feat H.Coconstruct; del_feat H.Backchannel; del_feat H.Reported;
     }
   }
 }
