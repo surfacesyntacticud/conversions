@@ -39,6 +39,14 @@ package init {
     pattern { e: N -[mod:appos]-> M; }
     commands { del_edge e; add_edge N -[appos]-> M; }
   }
+
+  % This configuration is not accepted by UD validator
+  % It is removed at the beginning to ensure good convertion to "nummod"
+  rule no_extpos_DET_on_num {
+    pattern { X[upos=NUM, ExtPos=DET] }
+    commands { del_feat X.ExtPos }
+  }
+
 }
 
 package conjdicto {

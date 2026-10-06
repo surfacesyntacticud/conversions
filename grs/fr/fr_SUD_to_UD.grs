@@ -16,11 +16,6 @@ package FR_init {
     }
   }
 
-  rule no_extpos_on_num {
-    pattern { X[upos=NUM, ExtPos] }
-    commands { del_feat X.ExtPos }
-  }
-
   % Rule for correct handling of "attach" annotation
   rule tmp_db_rhapsodie_attach {
     pattern { e:X -[type=attach]-> Y }
