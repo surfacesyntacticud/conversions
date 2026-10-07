@@ -237,74 +237,10 @@ package remove_Cxn {
   }
 }
 
-rule rm_unknown {
-  pattern { X [Gender__lex = Unknown] }
-  commands { del_feat X.Gender__lex }
-}
 
 rule missing_extension {
   pattern { e: N -[dislocated:unk]-> M }
   commands { del_feat e.2 }
-}
-
-
-% Adding "Exponence" encoding to describe the "status" of morphosyntactic features
-% https://github.com/UniversalDependencies/docs/issues/985
-package exponence {
-  rule Gender__ctxt {
-    pattern { X [Gender__ctxt] }
-    commands {
-      X.Gender = X.Gender__ctxt;
-      X.Exponence__Gender = Absent;
-      del_feat X.Gender__ctxt;
-    }
-  }
-
-  rule Gender__lex {
-    pattern { X [Gender__lex] }
-    commands {
-      X.Gender = X.Gender__lex;
-      X.Exponence__Gender = Inherent;
-      del_feat X.Gender__lex;
-    }
-  }
-
-  rule Number__ctxt {
-    pattern { X [Number__ctxt] }
-    commands {
-      X.Number = X.Number__ctxt;
-      X.Exponence__Number = Absent;
-      del_feat X.Number__ctxt;
-    }
-  }
-
-  rule Number__lex {
-    pattern { X [Number__lex] }
-    commands {
-      X.Number = X.Number__lex;
-      X.Exponence__Number = Inherent;
-      del_feat X.Number__lex;
-    }
-  }
-
-  rule Person__ctxt {
-    pattern { X [Person__ctxt] }
-    commands {
-      X.Person = X.Person__ctxt;
-      X.Exponence__Person = Absent;
-      del_feat X.Person__ctxt;
-    }
-  }
-
-  rule Person__lex {
-    pattern { X [Person__lex] }
-    commands {
-      X.Person = X.Person__lex;
-      X.Exponence__Person = Inherent;
-      del_feat X.Person__lex;
-    }
-  }
-
 }
 
 package fr_restore_mwt {
@@ -436,9 +372,8 @@ strat fr_SUD_to_UD_main {
     % Onf (FR_spoken_tilde), disabled for UD validation
     Onf (remove_Cxn),
     Onf (ud_validation), % final modification to adapt to validation errors and warnings
+    Onf (exponence_status),
     Onf (missing_extension),
-    Onf (rm_unknown),
-    Onf (exponence),
     Onf (fr_post_restore_mwt), % final modif of MWT tokens "au", "du" that are not regular
     Onf (le_det_is_masc),
     Onf (space_after_on_mwt),
