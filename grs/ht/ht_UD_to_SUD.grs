@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+include "../UD_to_SUD.grs"
+
+strat ht_UD_to_SUD_main {
+  Seq (
+    Onf (ht_pre),
+    UD_to_SUD_main,
+    Onf (ht_post),
+  )
+}
+
+package ht_pre {
+  rule iobj_obj {
+    pattern {
+      V [upos=VERB];
+      V -[iobj]-> I;
+      V -[obj]-> O;
+    }
+    commands {
+      del_edge V -[iobj]-> I;
+      add_edge V -[comp:obj@R]-> I;
+      del_edge V -[obj]-> O;
+      add_edge V -[comp:obj@T]-> O;
+    }
+  }
+
+  rule aux {
+    pattern { V -[aux]-> A  }
+    commands {
+      del_edge V -[aux]-> A;
+      add_edge V -[KEEP_aux]-> A;
+    }
+  }
+}
+
+package ht_post {
+  rule aux {
+    pattern { V -[KEEP_aux]-> A  }
+    commands {
+      del_edge V -[KEEP_aux]-> A;
+      add_edge V -[aux]-> A;
+    }
+  }
+
+}
