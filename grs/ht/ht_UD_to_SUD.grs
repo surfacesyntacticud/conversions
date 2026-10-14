@@ -13,14 +13,25 @@ package ht_pre {
   rule iobj_obj {
     pattern {
       V [upos=VERB];
-      V -[iobj]-> I;
-      V -[obj]-> O;
+      ei: V -[iobj]-> I;
+      eo: V -[obj]-> O;
     }
     commands {
-      del_edge V -[iobj]-> I;
-      add_edge V -[comp:obj@R]-> I;
-      del_edge V -[obj]-> O;
-      add_edge V -[comp:obj@T]-> O;
+      ei.label = "comp:obj@R";
+      eo.label = "comp:obj@T";
+    }
+  }
+
+  rule iobj_comp {
+    pattern { 
+      V [upos=VERB];
+      ei: V -[iobj]-> I; 
+      eo: V -[xcomp|ccomp]-> O; 
+    }
+    without { V -[obj]-> * } 
+    commands {
+      ei.label = "comp:obj@R";
+      eo.label = "comp:obj@T";
     }
   }
 
