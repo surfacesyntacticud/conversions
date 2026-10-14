@@ -27,6 +27,22 @@ package mSUD_to_SUD_init {
     pattern { X [form<>"__0__", !lemma]}
     commands { X.lemma = "" }
   }
+
+  rule remove_mwt_with_prefix {
+    pattern { X1 [form = re".+-"]; X2 [textform="_"]; X1 < X2 }
+    commands {
+      X1.textform = X1.form;
+      X2.textform = X2.form;
+    }
+  }
+
+  rule remove_mwt_with_suffix {
+    pattern { X1 []; X2 [form = re"-.+", textform="_"]; X1 < X2 }
+    commands {
+      X1.textform = X1.form;
+      X2.textform = X2.form;
+    }
+  }
 }
 
 
