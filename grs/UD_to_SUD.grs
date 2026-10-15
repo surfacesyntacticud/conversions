@@ -185,6 +185,11 @@ package sub_relations {
     commands {del_edge e; add_edge H -[mod@relcl]-> D}
   }
 
+  rule clf{
+    pattern { e:H -[clf]-> D; }
+    commands {del_edge e; add_edge H -[mod:clf]-> D}
+  }
+
 
   % subj
   %=========
@@ -229,6 +234,7 @@ package sub_relations {
     pattern { e:H -[1=expl, 2<>subj|comp|pass|pv]-> D; }
     commands {del_edge e; add_edge H -[unk@expl]-> D}
   }
+
 } % package sub_relations
 
 
@@ -240,7 +246,9 @@ package rel_extensions {
   rule change_ext{
     pattern{ e: H -[1=*,2=*]-> D }
     without{ H -[1=aux|comp|subj]-> D }
+    without{ e.2=poss }
     without{ e.2=outer }
+    without{ e.2=clf }
     commands{ add_edge H -[1=e.1,deep=e.2]-> D; del_edge e}
   }
 } % package rel_extensions
