@@ -21,6 +21,11 @@ package FR_init {
     pattern { e:X -[type=attach]-> Y }
     commands { del_feat e.type; add_edge X -[__ATTACH__]-> Y }
   }
+
+  rule rm_cdet {
+    pattern { X [cdet] }
+    commands { del_feat X.cdet } 
+  }
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
