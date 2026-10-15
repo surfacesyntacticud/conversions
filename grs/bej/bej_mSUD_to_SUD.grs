@@ -252,6 +252,7 @@ package morph2word {
       shift IA ==> ROOT;
       ROOT.form = ROOT.form + IA.form[1:];
       ROOT.wordform = ROOT.wordform + IA.wordform[1:];
+      ROOT.Gloss = ROOT.Gloss + IA.Gloss;  
       ROOT.MGloss = ROOT.MGloss + IA.MGloss;
       ROOT.MSeg = ROOT.MSeg + IA.MSeg;
       append_feats IA =[re"RX\|Number\|Gender"]=> ROOT;
@@ -271,6 +272,7 @@ package morph2word {
     commands {
       ROOT.form = DA.form[:-1] + ROOT.form;
       ROOT.wordform = DA.wordform[:-1] + ROOT.wordform;
+      ROOT.Gloss = DA.Gloss + ROOT.Gloss;
       ROOT.MGloss = DA.MGloss + ROOT.MGloss;
       ROOT.MSeg = DA.MSeg + ROOT.MSeg;
       prepend_feats DA =[re"RX\|Number\|Gender"]=> ROOT;
@@ -292,6 +294,7 @@ package morph2word {
       shift DA ==> ROOT;
       ROOT.form = DA.form[:-1] + ROOT.form;
       ROOT.wordform = DA.wordform[:-1] + ROOT.wordform;
+      ROOT.Gloss = DA.Gloss + ROOT.Gloss;
       ROOT.MGloss = DA.MGloss + ROOT.MGloss;
       ROOT.MSeg = DA.MSeg + ROOT.MSeg;
       prepend_feats DA =[re"RX\|Number\|Gender"]=> ROOT;
@@ -311,6 +314,7 @@ package morph2word {
     commands {
       ROOT.form = ROOT.form + DA.form[1:];
       ROOT.wordform = ROOT.wordform + DA.wordform[1:];
+      ROOT.Gloss = ROOT.Gloss + DA.Gloss;
       ROOT.MGloss = ROOT.MGloss + DA.MGloss;
       ROOT.MSeg = ROOT.MSeg + DA.MSeg;
       append_feats DA =[re"RX\|Number\|Gender"]=> ROOT;
@@ -333,6 +337,7 @@ package morph2word {
       shift DA ==> ROOT;
       ROOT.form = ROOT.form + DA.form[1:];
       ROOT.wordform = ROOT.wordform + DA.wordform[1:];
+      ROOT.Gloss = ROOT.Gloss + DA.Gloss;
       ROOT.MGloss = ROOT.MGloss + DA.MGloss;
       ROOT.MSeg = ROOT.MSeg + DA.MSeg;
       append_feats DA =[re"RX\|Number\|Gender"]=> ROOT;
