@@ -3,11 +3,12 @@ strat bej_mSUD_to_SUD_main {
     Onf (dep_on_InflAff),
     Onf (right_headeed_appos),
     Onf (init_MGloss_MSeg),
+    Onf (clean_gloss),
     Onf (morph2word),
     Onf (fix_features),
     Onf (fix_rel),
-    )
-  }
+  )
+}
 
 % In a few cases in mSUD_Beja-NSC, an InflAff which is dependent of a morph relation have another dep.
 % The rule [dep_on_InflAff] move the dependent one level up to prepare data for the main [morph2word] package
@@ -59,6 +60,36 @@ package init_MGloss_MSeg {
     }
   }
 }
+
+
+package clean_gloss {
+  rule cut_on_backslash {
+    pattern { X[Gloss = re".+[\].+" ]}
+    commands {
+      X.Gloss = X.Gloss[sep="\\", index=0]
+    }
+  }
+  rule cut_on_dot {
+    pattern { X[Gloss = re".+[.].+" ]}
+    without { X[TokenType=DerAff] }
+    commands {
+      X.Gloss = X.Gloss[sep=".", index=0]
+    }
+  }
+  rule rm_clit_post {
+    pattern { X[Gloss = re"=.+" ]}
+    commands {
+      X.Gloss = X.Gloss[1:]
+    }
+  }
+  rule rm_clit_pre {
+    pattern { X[Gloss = re".+=" ]}
+    commands {
+      X.Gloss = X.Gloss[:-1]
+    }
+  }
+}
+
 
 % The package morph2word contains eight rules with all combinations of
 % * InflAff / DerAff
