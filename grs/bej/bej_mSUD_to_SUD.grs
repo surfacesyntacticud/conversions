@@ -7,6 +7,7 @@ strat bej_mSUD_to_SUD_main {
     Onf (morph2word),
     Onf (fix_features),
     Onf (fix_rel),
+    Onf (dot_in_gloss),
   )
 }
 
@@ -314,4 +315,9 @@ SingSing	Sing
 rule fix_rel {
   pattern { e:X -[comp:aux]-> Y; X [upos<>AUX] }
   commands { e.label = comp }
+}
+
+rule dot_in_gloss {
+  pattern { X[Gloss = re".+-.+"] }
+  commands { X.Gloss = X.Gloss[sub="-", by="."] }
 }
