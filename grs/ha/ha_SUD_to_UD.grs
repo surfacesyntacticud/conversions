@@ -41,7 +41,7 @@ package ha_post {
   }
 
   rule missing_extension {
-    pattern { e: N -[dep:comp|flat:num|nmod:desc]-> M }
+    pattern { e: N -[dep:comp|nmod:desc]-> M }
     commands { del_feat e.2 }
   }
 }

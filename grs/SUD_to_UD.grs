@@ -708,6 +708,11 @@ package rel_extensions {
     commands{del_feat e.2}
   }
 
+  rule flat_num {
+    pattern { e: N -[flat:num]-> M }
+    commands { del_feat e.2 }
+  }
+
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
