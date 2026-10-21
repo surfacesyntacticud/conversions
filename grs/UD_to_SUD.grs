@@ -799,9 +799,8 @@ package reverse_relations {
     rule case-mark {
       pattern { e:M -[1=case|mark]-> N }
       commands { 
-        e.1 = comp;
-        e.2 = obj;
-      }
+        e.label = comp;
+        }
     }
 
     rule cop {
