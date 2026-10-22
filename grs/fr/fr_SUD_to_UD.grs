@@ -363,6 +363,12 @@ rule space_after_on_mwt {
   }
 }
 
+rule FR_cc_discourse {
+  pattern { X -[cc]-> Y; Y -[discourse:filler]-> Z }
+  commands { del_edge Y -[discourse:filler]-> Z; add_edge X -[discourse:filler]-> Z  } 
+}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main strategy for converting any SUD French annotation into a UD annotation.
@@ -382,5 +388,6 @@ strat fr_SUD_to_UD_main {
     Onf (fr_post_restore_mwt), % final modif of MWT tokens "au", "du" that are not regular
     Onf (le_det_is_masc),
     Onf (space_after_on_mwt),
+    Onf (FR_cc_discourse),
   )
 }
