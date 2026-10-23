@@ -136,7 +136,7 @@ package bej_valid {
   }
 
   rule case_children {
-    pattern { e: X -[case]-> Y; Y -[dep:comp]-> Z }
+    pattern { e: X -[case]-> Y; Y -[dep:comp|dep:conj]-> Z }
     commands { e.label=dep }
 
   }
