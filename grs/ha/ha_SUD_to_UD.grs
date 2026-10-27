@@ -11,11 +11,22 @@ strat ha_SUD_to_UD_main {
 
 package ha_pre {
   rule IDEO_with_extpos {
-    pattern { N[upos=IDEO, ExtPos] }
+    pattern { N[upos=IDEO, ExtPos, !Idiom] }
     commands { 
       N.upos=N.ExtPos;
       N.Ideophon=Yes; 
       del_feat N.ExtPos;
+      del_feat N.Gender;
+      del_feat N.Definite;
+      del_feat N.PronType;
+    }
+  }
+
+  rule IDEO_with_extpos_idiom {
+    pattern { N[upos=IDEO, ExtPos, Idiom] }
+    commands { 
+      N.upos=N.ExtPos;
+      N.Ideophon=Yes; 
       del_feat N.Gender;
       del_feat N.Definite;
       del_feat N.PronType;
