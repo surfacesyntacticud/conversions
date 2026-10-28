@@ -21,6 +21,18 @@ package sab_post {
     pattern { e: X -[1=cop, 2=*]-> Y }
     commands { del_feat e.2}
   }
+
+  % one case of double obj --> turn the one with a case into obl
+  rule obl {
+    pattern { 
+      e1: X -[obj]-> O1;
+      e2: X -[obj]-> O2; O2 -[case]-> *;
+    }
+    commands {
+      e2.label = obl
+    }
+  }
+
 }
 
 
