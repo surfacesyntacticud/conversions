@@ -219,4 +219,12 @@ package zh_post {
       add_edge Z -[clf]-> Y;
     }
   }
+
+  % for verison 2.19: degrade annotation obj to dep to avoid double obj validation constraint
+  % TODO: proper treatment of these cases (update mSUD annotation or conversions process)
+  rule double_obj {
+    pattern { e:X -[obj]-> Y1; X -[obj]-> Y2; Y1 << Y2; }
+    commands { e.label = dep }
+
+  }
 }
